@@ -15,6 +15,12 @@ def get_parser():
                         help='root where to store models, losses and accuracies',
                         default='..' + os.sep + 'output')
 
+    # parser.add_argument('-nep', '--epochs',
+    #                     type=int,
+    #                     help='number of epochs to train for',
+    #                     default=100)
+
+
     parser.add_argument('-nep', '--epochs',
                         type=int,
                         help='number of epochs to train for',
