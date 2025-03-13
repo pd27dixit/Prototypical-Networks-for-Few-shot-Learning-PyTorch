@@ -117,7 +117,7 @@ def get_parser():
     parser.add_argument('-nep', '--epochs',
                         type=int,
                         help='number of epochs to train for',
-                        default=10)  # Increased for stable training
+                        default=100)  # Increased for stable training
 
     parser.add_argument('-lr', '--learning_rate',
                         type=float,
@@ -142,12 +142,12 @@ def get_parser():
     parser.add_argument('-cTr', '--classes_per_it_tr',
                         type=int,
                         help='number of random classes per episode for training, default=224',
-                        default=224)  # Cover all classes in a batch
+                        default=5)  # Cover all classes in a batch
 
     parser.add_argument('-nsTr', '--num_support_tr',
                         type=int,
                         help='number of samples per class to use as support for training, default=5',
-                        default=3)  # Use 5 of 8 training images
+                        default=1)  # Use 5 of 8 training images
 
     parser.add_argument('-nqTr', '--num_query_tr',
                         type=int,
@@ -157,7 +157,7 @@ def get_parser():
     parser.add_argument('-cVa', '--classes_per_it_val',
                         type=int,
                         help='number of random classes per episode for validation, default=50',
-                        default=50)  # Sample 50 classes per validation batch
+                        default=40)  # Sample 50 classes per validation batch
 
     parser.add_argument('-nsVa', '--num_support_val',
                         type=int,
