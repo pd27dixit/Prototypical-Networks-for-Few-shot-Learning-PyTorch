@@ -1,0 +1,39 @@
+5 WAY, 5 SHOT RESULTS (10 epochs, query samples now 5 instead of 3)
+
+=== Epoch: 9 ===
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 136.12it/s]
+Avg Train Loss: 0.040200085614386295, Avg Train Acc: 0.9875999993085861
+Avg Val Loss: 1.8701666516065598, Avg Val Acc: 0.6869999992847443 (Best)
+Testing with last model..
+Test Acc: 0.6516249997019767
+Testing with best model..
+Test Acc: 0.6520500001907349
+
+
+
+
+5 WAY, 5 SHOT RESULTS (50 epochs, query samples now 5 instead of 3)
+
+=== Epoch: 49 ===
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 129.14it/s]
+Avg Train Loss: 0.004224677032078956, Avg Train Acc: 0.9983999997377395
+Avg Val Loss: 2.1581818675994873, Avg Val Acc: 0.6887499994039535 (Best: 0.7465000021457672)
+Testing with last model..
+Test Acc: 0.6973499988913536
+Testing with best model..
+Test Acc: 0.6938000001311302
+
+
+
+
+
+5 WAY, 5 SHOT RESULTS (100 epochs, query samples now 5 instead of 3)
+
+=== Epoch: 99 ===
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 381.16it/s]
+Avg Train Loss: 0.0007940012021449317, Avg Train Acc: 0.9995999997854232
+Avg Val Loss: 2.3814445781707763, Avg Val Acc: 0.7197500014305115 (Best: 0.7465000021457672)
+Testing with last model..
+Test Acc: 0.7540999995470047
+Testing with best model..
+Test Acc: 0.7476250005364418
