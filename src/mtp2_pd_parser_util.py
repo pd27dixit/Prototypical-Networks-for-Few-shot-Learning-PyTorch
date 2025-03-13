@@ -117,7 +117,7 @@ def get_parser():
     parser.add_argument('-nep', '--epochs',
                         type=int,
                         help='number of epochs to train for',
-                        default=1)  # Increased for stable training
+                        default=10)  # Increased for stable training
 
     parser.add_argument('-lr', '--learning_rate',
                         type=float,
@@ -147,7 +147,7 @@ def get_parser():
     parser.add_argument('-nsTr', '--num_support_tr',
                         type=int,
                         help='number of samples per class to use as support for training, default=5',
-                        default=5)  # Use 5 of 8 training images
+                        default=3)  # Use 5 of 8 training images
 
     parser.add_argument('-nqTr', '--num_query_tr',
                         type=int,

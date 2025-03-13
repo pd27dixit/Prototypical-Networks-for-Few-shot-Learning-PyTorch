@@ -342,6 +342,9 @@ def init_sampler(opt, labels, mode):
     else:
         classes_per_it = opt.classes_per_it_val
         num_samples = opt.num_support_val + opt.num_query_val
+        
+    print(f"num_samples: {num_samples}")
+    exit(0)    
 
     return PrototypicalBatchSampler(labels=labels,
                                     classes_per_it=classes_per_it,

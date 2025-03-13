@@ -100,6 +100,23 @@ class PrototypicalBatchSampler(object):
             #     batch[s] = self.indexes[label_idx][sample_idxs]
             #     batch_offset += spc  # Move to the next slice
             
+            '''
+            for c in self.classes[c_idxs]:
+                label_idx = (self.classes == c).nonzero(as_tuple=True)[0].item()
+                available_samples = self.numel_per_class[label_idx].item()
+
+                if available_samples < spc:
+                    # Warn and sample with replacement
+                    # print(f"Warning: Class {c} has only {available_samples} samples, expected {spc}. Sampling with replacement.")
+                    sample_idxs = torch.randint(0, available_samples, (spc,))  # Sample with replacement
+                else:
+                    sample_idxs = torch.randperm(available_samples)[:spc]
+
+                batch[batch_offset: batch_offset + spc] = self.indexes[label_idx][sample_idxs]
+                batch_offset += spc
+
+            yield batch[torch.randperm(batch_size)]  # Shuffle batch
+            '''
             for i, c in enumerate(self.classes[c_idxs]):
                 s = slice(i * spc, (i + 1) * spc)
                 # FIXME when torch.argwhere will exists

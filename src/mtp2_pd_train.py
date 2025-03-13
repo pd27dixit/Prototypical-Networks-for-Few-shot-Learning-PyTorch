@@ -52,6 +52,9 @@ def init_sampler(opt, labels, mode):
     else:
         classes_per_it = opt.classes_per_it_val
         num_samples = opt.num_support_val + opt.num_query_val
+        
+    # print(f"num_samples: {num_samples }")
+    # exit(0)
 
     return PrototypicalBatchSampler(labels=labels,
                                     classes_per_it=classes_per_it,
@@ -205,7 +208,7 @@ def eval(opt):
 
 def main():
     options = get_parser().parse_args()
-    options.dataset_root = "/old/home/nishkal/datasets/iris_datasets/IITD/IITD V1/IITD Database"
+    options.dataset_root = "/old/home/nishkal/datasets/iris_datasets/IITD/IITD V1/IITD Database" # for server code.
     
     os.makedirs(options.experiment_root, exist_ok=True)
     init_seed(options)
@@ -256,4 +259,6 @@ def main():
 
     
 if __name__ == '__main__':
+    # new change, did 60% train, 30% test, 10% val in my_split.py (11/3/25)
+    # changed epochs to 100 in mtp2_pd_parser_util.py (11/3/25)
     main()
