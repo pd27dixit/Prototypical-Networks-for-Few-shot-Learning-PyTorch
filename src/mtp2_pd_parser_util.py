@@ -142,17 +142,17 @@ def get_parser():
     parser.add_argument('-cTr', '--classes_per_it_tr',
                         type=int,
                         help='number of random classes per episode for training, default=224',
-                        default=5)  # Cover all classes in a batch
+                        default=20)  # Cover all classes in a batch
 
     parser.add_argument('-nsTr', '--num_support_tr',
                         type=int,
                         help='number of samples per class to use as support for training, default=5',
-                        default=5)  # Use 5 of 8 training images
+                        default=1)  # Use 5 of 8 training images
 
     parser.add_argument('-nqTr', '--num_query_tr',
                         type=int,
                         help='number of samples per class to use as query for training, default=3',
-                        default=5)  # Remaining 3 images used for query
+                        default=3)  # Remaining 3 images used for query
 
     parser.add_argument('-cVa', '--classes_per_it_val',
                         type=int,
