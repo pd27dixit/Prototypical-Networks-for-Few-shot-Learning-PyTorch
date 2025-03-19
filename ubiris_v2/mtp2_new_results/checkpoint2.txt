@@ -1,0 +1,102 @@
+0) 5 way, 1 shot (40 epochs, query samples = 3, 28x28 image) ORIGINAL  !!!!! BEST CHOICE !!!!!
+
+=== Epoch: 39 ===
+100%|████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 681.67it/s]
+Avg Train Loss: 0.2794079413451254, Avg Train Acc: 0.8980000057816505
+Avg Val Loss: 2.3260910868644715, Avg Val Acc: 0.408499998152256 (Best)
+Testing with last model..
+Test Acc: 0.4208999982625246
+Testing with best model..
+Test Acc: 0.42312999776005744
+
+1) 5 way, 1 shot (40 epochs, query samples = 3, 50x50 image)   
+
+=== Epoch: 39 ===
+100%|████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 623.73it/s]
+Avg Train Loss: 0.4181920780427754, Avg Train Acc: 0.8440000092983246
+Avg Val Loss: 2.645080807209015, Avg Val Acc: 0.357700001001358 (Best: 0.380900000333786)
+Testing with last model..
+Test Acc: 0.379329999729991
+Testing with best model..
+Test Acc: 0.38028999978303907
+
+
+2) 5 way, 1 shot (40 epochs, query samples = 3, 75x75 image)
+
+=== Epoch: 39 ===
+100%|████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 516.12it/s]
+Avg Train Loss: 0.5603484430909157, Avg Train Acc: 0.7913333454728126
+Avg Val Loss: 2.9615889406204223, Avg Val Acc: 0.31650000140070916 (Best: 0.32640000253915785)
+Testing with last model..
+Test Acc: 0.3297100009769201
+Testing with best model..
+Test Acc: 0.3291800015568733
+
+
+3) 5 way, 1 shot (40 epochs, query samples = 3, 85x85 image)  
+
+=== Epoch: 39 ===
+100%|████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 459.40it/s]
+Avg Train Loss: 0.7265468909591436, Avg Train Acc: 0.7320000144839287
+Avg Val Loss: 3.1357707834243773, Avg Val Acc: 0.2812000006437302 (Best: 0.28620000049471855)
+Testing with last model..
+Test Acc: 0.30873000141978263
+Testing with best model..
+Test Acc: 0.3080200017243624
+
+4) 5 way, 1 shot (40 epochs, query samples = 3, 88x88 image)
+
+=== Epoch: 39 ===
+100%|████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 403.00it/s]
+Avg Train Loss: 0.6160189487040043, Avg Train Acc: 0.7660000133514404
+Avg Val Loss: 3.0932744216918944, Avg Val Acc: 0.30290000200271605 (Best: 0.32230000153183935)
+Testing with last model..
+Test Acc: 0.3184000017493963
+Testing with best model..
+Test Acc: 0.31725000113248825
+
+
+5) 5 way, 1 shot (40 epochs, query samples = 3, 97x97 image)
+
+=== Epoch: 39 ===
+100%|████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 341.63it/s]
+Avg Train Loss: 0.8366876757144928, Avg Train Acc: 0.68866668343544
+Avg Val Loss: 3.5080043387413027, Avg Val Acc: 0.2441999989748001 (Best: 0.27519999966025355)
+Testing with last model..
+Test Acc: 0.26034999994933605
+Testing with best model..
+Test Acc: 0.25854000033438207
+
+
+6) 5 way, 1 shot (40 epochs, query samples = 3, 100x100 image)
+
+=== Epoch: 39 ===
+100%|████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 324.00it/s]
+Avg Train Loss: 0.8050915814936161, Avg Train Acc: 0.6973333498835563
+Avg Val Loss: 3.3302268958091736, Avg Val Acc: 0.2531000006198883 (Best: 0.26280000105500223)
+Testing with last model..
+Test Acc: 0.2737600011229515
+Testing with best model..
+Test Acc: 0.2721900003999472
+
+
+7) 5 way, 1 shot (40 epochs, query samples = 3, 120x120 image)
+
+=== Epoch: 39 ===
+100%|████████████████████████████████████████████████████████████████████| 100/100 [00:00<00:00, 233.57it/s]
+Avg Train Loss: 0.796127477735281, Avg Train Acc: 0.6913333487510681
+Avg Val Loss: 3.210668306350708, Avg Val Acc: 0.27109999909996985 (Best: 0.2741000014543533)
+Testing with last model..
+Test Acc: 0.278430000692606
+Testing with best model..
+Test Acc: 0.27851000030338763
+
+
+8) 5 way, 1 shot (40 epochs, query samples = 3, 240x240 image)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.75 GiB. GPU 0 has a total capacity of 23.63 GiB of which 931.38 MiB is free.
+
+9) 5 way, 1 shot (40 epochs, query samples = 3, 320x240 image)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 3.66 GiB. GPU 0 has a total capacity of 23.63 GiB of which 2.86 GiB is free.
+
+10) 5 way, 1 shot (40 epochs, query samples = 3, 400x300 image)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 5.72 GiB. GPU 0 has a total capacity of 23.63 GiB of which 5.19 GiB is free. 

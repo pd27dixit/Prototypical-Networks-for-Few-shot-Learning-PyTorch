@@ -117,7 +117,7 @@ def get_parser():
     parser.add_argument('-nep', '--epochs',
                         type=int,
                         help='number of epochs to train for',
-                        default=10)  # Increased for stable training
+                        default=40)  # Increased for stable training
 
     parser.add_argument('-lr', '--learning_rate',
                         type=float,
