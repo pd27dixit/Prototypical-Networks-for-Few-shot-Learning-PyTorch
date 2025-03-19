@@ -152,7 +152,7 @@ def get_parser():
     parser.add_argument('-nqTr', '--num_query_tr',
                         type=int,
                         help='number of samples per class to use as query for training, default=3',
-                        default=3)  # Remaining 3 images used for query
+                        default=13)  # Remaining 3 images used for query
 
     parser.add_argument('-cVa', '--classes_per_it_val',
                         type=int,
