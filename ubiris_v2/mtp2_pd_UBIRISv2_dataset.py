@@ -57,8 +57,8 @@ class UBIRISv2Dataset(Dataset):
     def _load_img(self, path, idx):
         """Load an image and apply necessary transformations."""
         img = Image.open(path).convert("L")  # Convert to grayscale
-        img = img.resize((28, 28))  # Resize to 28x28 like Omniglot
-        # img = img.resize((85, 85))  # Resize to 28x28 like Omniglot
+        # img = img.resize((28, 28))  # Resize to 28x28 like Omniglot
+        img = img.resize((50, 50))  # Resize to 28x28 like Omniglot
         
         img = np.asarray(img, dtype=np.float32) / 255.0
         img = torch.from_numpy(img).unsqueeze(0)  # Add channel dimension
