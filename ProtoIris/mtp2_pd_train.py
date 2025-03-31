@@ -3,7 +3,8 @@ from mtp2_pd_prototypical_batch_sampler import PrototypicalBatchSampler
 from prototypical_loss import prototypical_loss as loss_fn
 from mtp2_pd_IITD_dataset import IITDelhiDataset
 # from protonet import ProtoNet
-from protonet import ProtoNet1
+# from protonet import ProtoNet1
+from protonet import ProtoNet2
 
 # from parser_util import get_parser
 from mtp2_pd_parser_util import get_parser
@@ -70,7 +71,8 @@ def init_dataloader(opt, mode):
 def init_protonet(opt):
     device = 'cuda:0' if torch.cuda.is_available() and opt.cuda else 'cpu'
     # return ProtoNet().to(device)
-    return ProtoNet1().to(device)
+    # return ProtoNet1().to(device)
+    return ProtoNet2().to(device)
 # def init_protonet(opt):
 #     device = 'cuda:0' if torch.cuda.is_available() and opt.cuda else 'cpu'
 #     onnx_model_path = "/old/home/nishkal/PD/DeepIris_Recog_Drive/ResNet50_Iris.onnx"

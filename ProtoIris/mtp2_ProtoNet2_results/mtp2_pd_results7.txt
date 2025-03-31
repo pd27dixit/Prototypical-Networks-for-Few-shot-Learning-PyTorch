@@ -1,0 +1,10 @@
+20 WAY, 5 SHOT RESULTS (100 epochs, query samples = 3)
+
+=== Epoch: 99 ===
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:04<00:00, 23.49it/s]
+Avg Train Loss: 9.454462211291315e-06, Avg Train Acc: 1.0
+Avg Val Loss: 2.4330488324165342, Avg Val Acc: 0.7905000007152557 (Best: 0.7907499992847442)
+Testing with last model..
+Test Acc: 0.7918749998807907
+Testing with best model..
+Test Acc: 0.7906250001192093

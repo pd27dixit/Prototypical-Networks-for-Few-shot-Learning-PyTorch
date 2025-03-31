@@ -124,55 +124,55 @@ import torch.nn as nn
 import torchvision.models as models
 
 
-# --- Keeps the entire ResNet50 model, including the FC layer.
-class ProtoNet1(nn.Module):
-    def __init__(self, z_dim=512):
-        super(ProtoNet1, self).__init__()
-        base_model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
-        
-        # Modify first conv layer to accept 1-channel images
-        first_conv_layer = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
-        first_conv_layer.weight = nn.Parameter(torch.mean(base_model.conv1.weight, dim=1, keepdim=True))
-        base_model.conv1 = first_conv_layer
-
-        # Replace the FC layer instead of removing it
-        in_features = base_model.fc.in_features
-        base_model.fc = nn.Linear(in_features, z_dim)  # Adjust FC layer to output z_dim
-        
-        self.encoder = base_model  # Keep full ResNet50 with modified first & last layers
-
-    def forward(self, x):
-        x = self.encoder(x)  # Directly pass through the model (includes the FC layer)
-        return x  # Output is now (batch_size, z_dim)
-
-
-
-# import torch
-# import torch.nn as nn
-# import torchvision.models as models
-
-# # ----Removes the last FC layer (only keeps feature extraction layers)
-# class ProtoNet(nn.Module):
+# # --- Keeps the entire ResNet50 model, including the FC layer.
+# class ProtoNet1(nn.Module):
 #     def __init__(self, z_dim=512):
-#         super(ProtoNet, self).__init__()
+#         super(ProtoNet1, self).__init__()
 #         base_model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
-
-#         # Modify first convolutional layer to accept 1-channel images
+        
+#         # Modify first conv layer to accept 1-channel images
 #         first_conv_layer = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
-#         first_conv_layer.weight = nn.Parameter(torch.mean(base_model.conv1.weight, dim=1, keepdim=True))  # Convert 3-channel to 1-channel
+#         first_conv_layer.weight = nn.Parameter(torch.mean(base_model.conv1.weight, dim=1, keepdim=True))
+#         base_model.conv1 = first_conv_layer
 
-#         base_model.conv1 = first_conv_layer  # Replace original conv layer
-
-#         self.encoder = nn.Sequential(*list(base_model.children())[:-1])  # Remove FC layer
-
-#         # Global Average Pooling + Fully Connected Layer
-#         self.projection = nn.Sequential(
-#             nn.Flatten(),
-#             nn.Linear(2048, z_dim),
-#             nn.ReLU()
-#         )
+#         # Replace the FC layer instead of removing it
+#         in_features = base_model.fc.in_features
+#         base_model.fc = nn.Linear(in_features, z_dim)  # Adjust FC layer to output z_dim
+        
+#         self.encoder = base_model  # Keep full ResNet50 with modified first & last layers
 
 #     def forward(self, x):
-#         x = self.encoder(x)  # Feature extraction
-#         x = self.projection(x)  # Projection to z_dim
-#         return x
+#         x = self.encoder(x)  # Directly pass through the model (includes the FC layer)
+#         return x  # Output is now (batch_size, z_dim)
+
+
+
+import torch
+import torch.nn as nn
+import torchvision.models as models
+
+# ----Removes the last FC layer (only keeps feature extraction layers)
+class ProtoNet2(nn.Module):
+    def __init__(self, z_dim=512):
+        super(ProtoNet2, self).__init__()
+        base_model = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
+
+        # Modify first convolutional layer to accept 1-channel images
+        first_conv_layer = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
+        first_conv_layer.weight = nn.Parameter(torch.mean(base_model.conv1.weight, dim=1, keepdim=True))  # Convert 3-channel to 1-channel
+
+        base_model.conv1 = first_conv_layer  # Replace original conv layer
+
+        self.encoder = nn.Sequential(*list(base_model.children())[:-1])  # Remove FC layer
+
+        # Global Average Pooling + Fully Connected Layer
+        self.projection = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(2048, z_dim),
+            nn.ReLU()
+        )
+
+    def forward(self, x):
+        x = self.encoder(x)  # Feature extraction
+        x = self.projection(x)  # Projection to z_dim
+        return x
