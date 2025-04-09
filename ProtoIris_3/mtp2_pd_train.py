@@ -37,6 +37,12 @@ def init_dataset(opt, mode):
     dataset = IITDelhiDataset(mode=mode, root=opt.dataset_root)
     # exit()
     n_classes = len(np.unique(dataset.y))
+    
+    # print(f"[DEBUG] Mode: {mode}, Dataset Size: {len(dataset)}")
+    # print(f"[DEBUG] Class distribution: {np.bincount(dataset.y)}")
+
+    
+    
     print(f"[INFO] Number of unique classes in dataset: {n_classes}")
     if n_classes < opt.classes_per_it_tr or n_classes < opt.classes_per_it_val:
         raise Exception(f"[ERROR] Not enough classes in the dataset! Required: " +
@@ -47,7 +53,7 @@ def init_dataset(opt, mode):
     return dataset
 
 
-def init_sampler(opt, labels, mode):
+def init_sampler(opt, labels, mode, sector_to_classlist=None, sectors=None):
     if 'train' in mode:
         classes_per_it = opt.classes_per_it_tr
         num_samples = opt.num_support_tr + opt.num_query_tr
@@ -61,12 +67,15 @@ def init_sampler(opt, labels, mode):
     return PrototypicalBatchSampler(labels=labels,
                                     classes_per_it=classes_per_it,
                                     num_samples=num_samples,
-                                    iterations=opt.iterations)
+                                    iterations=opt.iterations, 
+                                    sector_to_classlist=sector_to_classlist,
+                                    sectors=sectors,
+                                    sectors_per_it=opt.sectors_per_it)
 
 def init_dataloader(opt, mode):
     dataset = init_dataset(opt, mode)
-    sampler = init_sampler(opt, dataset.y, mode)
-    return torch.utils.data.DataLoader(dataset, batch_sampler=sampler)
+    sampler = init_sampler(opt, dataset.y, mode, sector_to_classlist=dataset.sector_to_classlist,sectors=dataset.sectors)
+    return torch.utils.data.DataLoader(dataset, batch_sampler=sampler), dataset.class_to_sector
 
 def init_protonet(opt):
     device = 'cuda:0' if torch.cuda.is_available() and opt.cuda else 'cpu'
@@ -90,7 +99,7 @@ def save_list_to_file(path, thelist):
             f.write("%s\n" % item)
 
 
-def train(opt, tr_dataloader, model, optim, lr_scheduler, val_dataloader=None):
+def train(opt, tr_dataloader, model, optim, lr_scheduler, val_dataloader=None, class_to_sector=None):
     device = 'cuda:0' if torch.cuda.is_available() and opt.cuda else 'cpu'
     
     if val_dataloader is None:
@@ -115,10 +124,11 @@ def train(opt, tr_dataloader, model, optim, lr_scheduler, val_dataloader=None):
         for batch in tqdm(tr_iter):
             optim.zero_grad()
             x, y = batch
+            # (x, y), _ = batch
             x, y = x.to(device), y.to(device)
             model_output = model(x)
             loss, acc = loss_fn(model_output, target=y,
-                                n_support=opt.num_support_tr)
+                                n_support=opt.num_support_tr, class_to_sector=class_to_sector)
             loss.backward()
             optim.step()
             train_loss.append(loss.item())
@@ -136,10 +146,11 @@ def train(opt, tr_dataloader, model, optim, lr_scheduler, val_dataloader=None):
         model.eval()
         for batch in val_iter:
             x, y = batch
+            # (x, y), _ = batch
             x, y = x.to(device), y.to(device)
             model_output = model(x)
             loss, acc = loss_fn(model_output, target=y,
-                                n_support=opt.num_support_val)
+                                n_support=opt.num_support_val, class_to_sector=class_to_sector)
             val_loss.append(loss.item())
             val_acc.append(acc.item())
         avg_loss = np.mean(val_loss[-opt.iterations:])
@@ -174,7 +185,7 @@ def train(opt, tr_dataloader, model, optim, lr_scheduler, val_dataloader=None):
 #     print(f'Test Acc: {np.mean(avg_acc)}')
 
 
-def test(opt, test_dataloader, model):
+def test(opt, test_dataloader, model, class_to_sector=None):
     '''
     Test the model trained with the prototypical learning algorithm
     '''
@@ -184,10 +195,11 @@ def test(opt, test_dataloader, model):
         test_iter = iter(test_dataloader)
         for batch in test_iter:
             x, y = batch
+            # (x, y), _ = batch
             x, y = x.to(device), y.to(device)
             model_output = model(x)
             _, acc = loss_fn(model_output, target=y,
-                             n_support=opt.num_support_val)
+                             n_support=opt.num_support_val, class_to_sector=class_to_sector)
             avg_acc.append(acc.item())
     avg_acc = np.mean(avg_acc)
     print('Test Acc: {}'.format(avg_acc))
@@ -223,33 +235,63 @@ def main():
     os.makedirs(options.experiment_root, exist_ok=True)
     init_seed(options)
     
-    tr_dataloader = init_dataloader(options, 'train')
+    tr_dataloader, class_to_sector_tr = init_dataloader(options, 'train')
     
     print("\n\nval_dataloader")
-    val_dataloader = init_dataloader(options, 'val')
+    val_dataloader, class_to_sector_val = init_dataloader(options, 'val')
     
-    test_dataloader = init_dataloader(options, 'test')
+    if val_dataloader is None:
+        print("\n\nNone val_dataloader")
+        # continue
+    else:
+        print("\nval_dataloader not empty")
+
+    
+    test_dataloader, class_to_sector_test = init_dataloader(options, 'test')
     
     model = init_protonet(options)
     optim = init_optim(options, model)
     lr_scheduler = init_lr_scheduler(options, optim)
+    
+    
+    class_to_sector = {}
+    # Helper to convert keys to int before updating
+    def update_with_int_keys(target_dict, source_dict):
+        for k, v in source_dict.items():
+            target_dict[int(k)] = v  # convert key to int
+
+    update_with_int_keys(class_to_sector, class_to_sector_tr)
+    update_with_int_keys(class_to_sector, class_to_sector_val)
+    update_with_int_keys(class_to_sector, class_to_sector_test)
+
+    # Optional: print the combined mapping
+    # print("Combined class_to_sector mapping:")
+    # for cls, sector in class_to_sector.items():
+    #     print(f"Class {cls} --> Sector {sector}")
+
+    # print(f"\nTotal number of unique classes after merging: {len(class_to_sector)}")
+    
+    
     res = train(opt=options,
                 tr_dataloader=tr_dataloader,
                 val_dataloader=val_dataloader,
                 model=model,
                 optim=optim,
-                lr_scheduler=lr_scheduler)
+                lr_scheduler=lr_scheduler, 
+                class_to_sector=class_to_sector)
     best_state, best_acc, train_loss, train_acc, val_loss, val_acc = res
     print('Testing with last model..')
     test(opt=options,
          test_dataloader=test_dataloader,
-         model=model)
+         model=model,
+         class_to_sector=class_to_sector)
 
     model.load_state_dict(best_state)
     print('Testing with best model..')
     test(opt=options,
          test_dataloader=test_dataloader,
-         model=model)
+         model=model,
+         class_to_sector=class_to_sector)
 
     # optim = init_optim(options, model)
     # lr_scheduler = init_lr_scheduler(options, optim)

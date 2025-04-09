@@ -3,6 +3,8 @@ dataset/
 *.pth
 output/
 
+ProtoIris_2Level_Prototype/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
