@@ -147,12 +147,12 @@ def get_parser():
     parser.add_argument('-nsTr', '--num_support_tr',
                         type=int,
                         help='number of samples per class to use as support for training, default=5',
-                        default=5)  # Use 5 of 8 training images
+                        default=1)  # Use 5 of 8 training images
 
     parser.add_argument('-nqTr', '--num_query_tr',
                         type=int,
                         help='number of samples per class to use as query for training, default=3',
-                        default=5)  # Remaining 3 images used for query
+                        default=3)  # Remaining 3 images used for query
 
     parser.add_argument('-cVa', '--classes_per_it_val',
                         type=int,
@@ -168,35 +168,6 @@ def get_parser():
                         type=int,
                         help='number of samples per class to use as query for validation, default=1',
                         default=1)  # 1 query image available per class
-    
-    
-    
-    parser.add_argument('-nspit', '--sectors_per_it', 
-                        type=int, 
-                        help='number of sectors per episode, default=3', 
-                        default=3)
-                        # default=5)
-    
-    
-    # FOR 2-LEVEL HIERARCHY FOR CLASSIFICATION:
-    # Each sector is a super-class containing multiple persons (sub-classes). [Sectors -> Persons]
-    
-    # Then at each episode, the sampler will:
-
-    # Randomly choose 3 out of the total sectors
-
-    # From these sectors, sample a number of classes_per_it persons.
-
-    # For each selected person, sample num_samples images (used to compute prototypes).
-
-    # This forms your support set.
-    
-    
-    
-    
-
-    
-    
 
     parser.add_argument('-seed', '--manual_seed',
                         type=int,

@@ -39,6 +39,8 @@ def prototypical_loss(input, target, n_support, class_to_sector):
 
     target_cpu = target.to('cpu')
     input_cpu = input.to('cpu')
+    # input_cpu = F.normalize(input.to('cpu'), p=2, dim=1)
+
 
     
     ### 1. Get Class-wise Support Indices
@@ -93,6 +95,9 @@ def prototypical_loss(input, target, n_support, class_to_sector):
     ###  2. Compute Person Prototypes
     prototypes = torch.stack([input_cpu[idx_list].mean(0) for idx_list in support_idxs])  ### Each person prototype is the average of their support embeddings.
     ### prototypes = [proto_0, proto_1, ..., proto_5].
+    
+    # prototypes = torch.stack([input_cpu[idx_list].mean(0) for idx_list in support_idxs]) 
+    # prototypes = F.normalize(prototypes, p=2, dim=1)
     
     
     
