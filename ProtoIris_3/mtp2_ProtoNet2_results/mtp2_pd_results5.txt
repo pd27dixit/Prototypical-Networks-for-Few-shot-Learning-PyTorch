@@ -7,3 +7,4 @@ Avg Val Loss: 0.9973049284517765, Avg Val Acc: 0.4382499983906746 (Best: 0.46424
 Testing with last model..
 Test Acc: 0.4585499977171421
 Testing with best model..
+Test Acc: 0.46044999757409094
