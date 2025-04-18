@@ -142,7 +142,7 @@ def get_parser():
     parser.add_argument('-cTr', '--classes_per_it_tr',
                         type=int,
                         help='number of random classes per episode for training, default=224',
-                        default=5)  # Cover all classes in a batch
+                        default=20)  # Cover all classes in a batch
 
     parser.add_argument('-nsTr', '--num_support_tr',
                         type=int,
